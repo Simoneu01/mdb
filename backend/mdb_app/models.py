@@ -1,4 +1,5 @@
 from django.db import models
+from django.forms import ModelChoiceField
 
 
 # Create your models here.
@@ -13,6 +14,9 @@ class Artista(models.Model):
     cognome = models.CharField(max_length=50)
     foto = models.ImageField()
 
+    def __str__(self):
+        return '%s %s' % (self.nome, self.cognome)
+
 
 class Album(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
@@ -20,6 +24,8 @@ class Album(models.Model):
     pubblicazione = models.DateField()
     copertina = models.ImageField()
 
+    def __str__(self):
+        return '%s:%s' % (self.nome, self.pubblicazione)
 
 class Canzone(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
@@ -27,15 +33,23 @@ class Canzone(models.Model):
     titolo = models.CharField(max_length=50)
     copertina = models.ImageField()
 
+    def __str__(self):
+        return '%s:%s' % (self.titolo, self.album)
 
 class Genere(models.Model):
     nome = models.CharField(max_length=50)
+
+    def __str__(self):
+        return '%s' % (self.nome)
 
 
 class Film(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
     generi = models.ManyToManyField(Genere)
+
+    def __str__(self):
+        return '%s' % (self.titolo)
 
 
 class Attore(models.Model):
@@ -45,6 +59,9 @@ class Attore(models.Model):
     foto = models.ImageField()
     films = models.ManyToManyField(Film)
 
+    def __str__(self):
+        return '%s %s' % (self.nome, self.cognome)
+
 
 class Scrittore(models.Model):
     nome = models.CharField(max_length=50)
@@ -52,8 +69,14 @@ class Scrittore(models.Model):
     dob = models.DateField()
     foto = models.ImageField()
 
+    def __str__(self):
+        return '%s %s' % (self.nome, self.cognome)
+
 class Libro(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
     generi = models.ManyToManyField(Genere)
     scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return '%s %s' % (self.titolo, self.scrittore)
