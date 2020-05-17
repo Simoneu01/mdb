@@ -25,7 +25,7 @@ class Album(models.Model):
     copertina = models.ImageField()
 
     def __str__(self):
-        return '%s:%s' % (self.nome, self.pubblicazione)
+        return 'Titolo Album: %s - Data Pubblicazione: %s' % (self.nome, self.pubblicazione)
 
 class Canzone(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
@@ -79,4 +79,4 @@ class Libro(models.Model):
     scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE)
 
     def __str__(self):
-        return '%s %s' % (self.titolo, self.scrittore)
+        return 'Titolo: %s - Scrittore: %s' % (self.titolo, self.scrittore)

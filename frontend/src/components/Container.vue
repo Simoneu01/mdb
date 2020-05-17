@@ -1,20 +1,28 @@
 <template>
-    <div class="container">
-        <Body/>
+    <div class="bg-dark h-screen">
+        <div class="flex" style="height: 88vh">
+            <!--  side nav -->
+            <SideNav/>
+            <!-- main content -->
+            <div class="w-full h-full relative overflow-y-scroll">
+                <!-- navbar -->
+                <NavBar/>
+                <!-- cards -->
+                <Cards/>
+            </div>
+        </div>
         <Footer/>
     </div>
 </template>
 
 <script>
-    import Body from "./Body"
-    import Footer from "./Footer"
-
+    import Footer from "./Footer";
+    import SideNav from "./SideNav";
+    import Cards from "./Cards";
+    import NavBar from "./NavBar";
     export default {
         name: "Container",
-        components: {
-            Footer,
-            Body
-        }
+        components: {NavBar, Cards, SideNav, Footer}
     }
 </script>
 
