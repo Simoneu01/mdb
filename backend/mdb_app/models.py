@@ -12,7 +12,7 @@ class Article(models.Model):
 class Artista(models.Model):
     nome = models.CharField(max_length=50)
     cognome = models.CharField(max_length=50)
-    foto = models.ImageField()
+    foto = models.ImageField(upload_to='uploads/%Y/%m/canzoni/artisti/', blank=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.nome, self.cognome)
@@ -22,7 +22,7 @@ class Album(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
     nome = models.CharField(max_length=50)
     pubblicazione = models.DateField()
-    copertina = models.ImageField()
+    copertina = models.ImageField(upload_to='uploads/%Y/%m/canzoni/album/', blank=True, null=True)
 
     def __str__(self):
         return 'Titolo Album: %s - Data Pubblicazione: %s' % (self.nome, self.pubblicazione)
@@ -31,7 +31,7 @@ class Canzone(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     titolo = models.CharField(max_length=50)
-    copertina = models.ImageField()
+    copertina = models.ImageField(upload_to='uploads/%Y/%m/canzoni', blank=True, null=True)
 
     def __str__(self):
         return '%s:%s' % (self.titolo, self.album)
@@ -47,6 +47,7 @@ class Film(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
     generi = models.ManyToManyField(Genere)
+    copertina = models.ImageField(upload_to='uploads/%Y/%m/film/', blank=True, null=True)
 
     def __str__(self):
         return '%s' % (self.titolo)
@@ -56,7 +57,7 @@ class Attore(models.Model):
     nome = models.CharField(max_length=50)
     cognome = models.CharField(max_length=50)
     dob = models.DateField()
-    foto = models.ImageField()
+    foto = models.ImageField(upload_to='uploads/%Y/%m/film/attori/', blank=True, null=True)
     films = models.ManyToManyField(Film)
 
     def __str__(self):
@@ -67,7 +68,7 @@ class Scrittore(models.Model):
     nome = models.CharField(max_length=50)
     cognome = models.CharField(max_length=50)
     dob = models.DateField()
-    foto = models.ImageField()
+    foto = models.ImageField(upload_to='uploads/%Y/%m/libri/scrittori/', blank=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.nome, self.cognome)
@@ -76,6 +77,7 @@ class Libro(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
     generi = models.ManyToManyField(Genere)
+    copertina = models.ImageField(upload_to='uploads/%Y/%m/libri/', blank=True, null=True)
     scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE)
 
     def __str__(self):
