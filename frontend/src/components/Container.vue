@@ -9,6 +9,7 @@
                 <NavBar/>
                 <!-- cards -->
                 <Cards/>
+                <Cards/>
             </div>
         </div>
         <Footer/>

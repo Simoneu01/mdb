@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full sticky top-0 py-4 px-6 flex items-center justify-between">
+    <div class="w-full sticky top-0 py-4 px-6 flex items-center justify-between bg-black">
         <!-- Navigation Button -->
         <div class="flex items-center">
             <button class="focus:outline-none rounded-full bg-black w-8 h-8 mr-3 text-white opacity-75 hover:opacity-100">
@@ -39,5 +39,7 @@
 </script>
 
 <style scoped>
-
+div.sticky{
+    z-index: 9999
+}
 </style>
