@@ -1,9 +1,9 @@
 <template>
     <div class="px-6 py-3">
         <!-- Titolo -->
-        <div class="flex items-center justify-between">
-            <h1 class="pl-2 text-2xl font-semibold text-white tracking-wider hover:underline">Libri</h1>
-            <h2 class="pr-8 pt-4 text-lightest uppercase tracking-wider hover:underline mb-3">Vedi Tutti</h2>
+        <div class="pl-2">
+            <h1 class="text-2xl font-semibold text-white tracking-wider hover:underline">Libri</h1>
+            <h2 class="text-lightest">Ultimi Libri aggiunti</h2>
         </div>
         <!-- Cards -->
         <div class="w-full flex flex-wrap">
@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
-                    <img :src="libro.copertina" alt="" class="h-auto w-full shadow mb-2">
+                    <img :src="libro.src" alt="" class="h-auto w-full shadow mb-2">
                     <h1 class="text-sm font-semibold text-white tracking-wide">{{ libro.titolo }}</h1>
                     <h1 class="text-xs font-semibold text-lightest tracking-wide">{{ libro.pubblicazione }}</h1>
                     <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ libro.scrittore }}</h1>

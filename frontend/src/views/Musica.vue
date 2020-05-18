@@ -1,6 +1,6 @@
 <template>
     <div class="bg-dark h-screen">
-        <div class="flex" style="height: 88vh">
+        <div class="flex" style="height: 98vh">
             <!--  side nav -->
             <SideNav/>
             <!-- main content -->

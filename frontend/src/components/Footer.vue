@@ -1,6 +1,6 @@
 <template>
     <!-- footer -->
-    <div class="w-full bg-light" style="height: 12vh">
+    <div class="w-full bg-light" style="height: 2vh">
 
     </div>
 </template>
