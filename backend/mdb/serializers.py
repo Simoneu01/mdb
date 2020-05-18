@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 from django.contrib.auth.models import User
-
+from django.contrib.auth.admin import admin
 
 # Serializers define the API representation.
 class UserSerializer(serializers.HyperlinkedModelSerializer):

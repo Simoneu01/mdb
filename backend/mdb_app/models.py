@@ -26,27 +26,27 @@ class Artista(models.Model):
 
 
 class Album(models.Model):
+    titolo = models.CharField(max_length=50)
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
-    nome = models.CharField(max_length=50)
     pubblicazione = models.DateField()
     src = models.ImageField(upload_to='uploads/%Y/%m/canzoni/album/', default='uploads/default.png')
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Titolo Album: %s - Data Pubblicazione: %s' % (self.nome, self.pubblicazione)
+        return 'Titolo Album: %s - Data Pubblicazione: %s' % (self.titolo, self.pubblicazione)
 
 
 class Canzone(models.Model):
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, blank=True, null=True)
     titolo = models.CharField(max_length=50)
     src = models.ImageField(upload_to='uploads/%Y/%m/canzoni', default='uploads/default.png')
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return '%s:%s' % (self.titolo, self.album)
+        return '%s - Artista:%s' % (self.titolo, self.artista)
 
     class Meta:
             verbose_name_plural = "Canzoni"
