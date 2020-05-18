@@ -1,13 +1,17 @@
 <template>
     <div class="w-56 bg-black h-full flex-none">
         <div class="p-6">
-            <img src="https://www.arizonachristian.edu/wp-content/uploads/2017/06/logo-placeholder.png" class="h-13">
+            <router-link to="/">
+                <img src="https://www.arizonachristian.edu/wp-content/uploads/2017/06/logo-placeholder.png" class="h-13">
+            </router-link>
         </div>
         <div class="mx-2">
-            <button v-for="page in pages" v-bind:key="page" @click="setID = page.id" :class="`opacity-75 hover:opacity-100 w-full font-semibold rounded px-3 py-2 flex items-center justify-started  ${setID === page.id ? 'bg-light text-white' : 'text-lightest'}`">
-                <font-awesome-icon class="mr-3" :icon="page.icon"/>
-                <p>{{ page.name }}</p>
-            </button>
+            <router-link v-for="page in pages" v-bind:key="page.id" :to="page.id">
+                <button @click="setID = page.id" :class="`opacity-75 hover:opacity-100 w-full font-semibold rounded px-3 py-2 flex items-center justify-started  ${setID === page.id ? 'bg-light text-white' : 'text-lightest'}`">
+                    <font-awesome-icon class="mr-3" :icon="page.icon"/>
+                    {{ page.name }}
+                </button>
+            </router-link>
         </div>
     </div>
 </template>
@@ -23,7 +27,7 @@
                     {id: 'musica', name: 'Musica', icon: 'music'},
                     {id: 'libri', name: 'Libri', icon: 'book'}
                 ],
-                setID: 'home'
+                setID: this.$router,
             }
         }
     }

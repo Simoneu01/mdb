@@ -3,10 +3,10 @@
         <!-- Navigation Button -->
         <div class="flex items-center">
             <button class="focus:outline-none rounded-full bg-black w-8 h-8 mr-3 text-white opacity-75 hover:opacity-100">
-                <font-awesome-icon class="text-xl" icon="arrow-left"/>
+                <font-awesome-icon @click="goBack" class="text-xl" icon="arrow-left"/>
             </button>
             <button class="focus:outline-none rounded-full bg-black w-8 h-8 text-white opacity-75 hover:opacity-100">
-                <font-awesome-icon class="text-xl" icon="arrow-right"/>
+                <font-awesome-icon @click="goForward" class="text-xl" icon="arrow-right"/>
             </button>
 
         </div>
@@ -33,6 +33,14 @@
         data: function () {
             return {
                 showDropdown: false
+            }
+        },
+        methods: {
+            goBack(){
+                this.$router.go(-1)
+            },
+            goForward(){
+                this.$router.go(1)
             }
         }
     }
