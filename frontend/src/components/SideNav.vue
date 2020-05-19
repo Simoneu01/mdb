@@ -6,7 +6,7 @@
             </router-link>
         </div>
         <div class="mx-2">
-            <router-link v-for="page in pages" v-bind:key="page.id" :to="page.id">
+            <router-link v-for="page in pages" v-bind:key="page.id" :to="`/${page.id}`">
                 <button @click="setID = page.id" :class="`opacity-75 hover:opacity-100 w-full font-semibold rounded px-3 py-2 flex items-center justify-started  ${setID === page.id ? 'bg-light text-white' : 'text-lightest'}`">
                     <font-awesome-icon class="mr-3" :icon="page.icon"/>
                     {{ page.name }}

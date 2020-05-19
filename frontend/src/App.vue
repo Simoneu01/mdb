@@ -5,7 +5,7 @@
 <script>
 
 export default {
-  name: 'App',
+  name: 'App'
 }
 </script>
 <style src="./assets/styles/app.css"/>
