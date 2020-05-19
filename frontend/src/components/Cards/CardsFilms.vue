@@ -1,8 +1,14 @@
 <template>
     <div class="px-6 py-3">
         <!-- Titolo -->
+
         <div class="pl-2">
-            <h1 class="text-2xl font-semibold text-white tracking-wider hover:underline">Film</h1>
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-semibold text-white tracking-wider hover:underline">Film</h1>
+                <router-link to="film/add">
+                    <button class="bg-green hover:bg-greenest text-white font-bold py-2 px-4 rounded">Aggiungi Film</button>
+                </router-link>
+            </div>
             <h2 class="text-lightest">Ultimi Films aggiunti</h2>
         </div>
         <!-- Cards -->

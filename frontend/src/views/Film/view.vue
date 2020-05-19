@@ -15,8 +15,8 @@
                 </div>
             </div>
         </div>
-        <div class="text-center px-4 py-2 m-2">
-            CAST 2
+        <div class="p-10">
+            <h1 class="text-4xl pl-2 font-semibold tracking-wide">CAST 2</h1>
             <Cast :casts="casts"/>
         </div>
     </div>

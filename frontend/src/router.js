@@ -40,7 +40,11 @@ export default new Router({
                     component: Musica
                 },
                 {
-                    path: '/film/:id',
+                    path: 'film/add',
+                    component: () => import('./views/Film/add')
+                },
+                {
+                    path: 'film/:id',
                     component: () => import('./views/Film/view'),
                     beforeEnter: (to, from, next) => {
 

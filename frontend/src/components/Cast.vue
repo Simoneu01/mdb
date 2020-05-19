@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <img :src="cast.src" alt="" class="rounded-full h-auto w-full">
-                <h1 class="text-sm font-semibold text-white tracking-wide">{{ cast.nome }}</h1>
+                <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ cast.nome }}</h1>
             </div>
         </div>
 </template>

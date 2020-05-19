@@ -65,8 +65,11 @@ class Genere(models.Model):
 class Film(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
-    generi = models.ManyToManyField(Genere)
+    generi = models.ManyToManyField(Genere, blank=True, null=True)
     src = models.ImageField(upload_to='uploads/%Y/%m/film/', default='uploads/default.png')
+    e_src = models.URLField(blank=True, null=True)
+    tmdb_id = models.BigIntegerField(unique=True, blank=True, null=True)
+    plot = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 

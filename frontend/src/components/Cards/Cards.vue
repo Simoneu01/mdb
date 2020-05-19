@@ -27,9 +27,9 @@
 <script>
     export default {
         name: "Cards",
-        props: {
-            dati: Array
-        }
+            props: {
+                dati: Array
+            }
     }
 </script>
 

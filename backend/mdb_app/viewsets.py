@@ -1,6 +1,7 @@
 from rest_framework import viewsets
 from .models import *
 from .serializers import *
+from rest_framework.permissions import AllowAny
 
 
 class ArticleViewSet(viewsets.ModelViewSet):
@@ -29,6 +30,8 @@ class GenereViewSet(viewsets.ModelViewSet):
 
 
 class FilmViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+
     queryset = Film.objects.all()
     serializer_class = FilmSerializer
 
