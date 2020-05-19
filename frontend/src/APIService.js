@@ -10,9 +10,15 @@ export class APIService{
         return axios.get(url).then(response => response.data);
     }
 
-    getFilm(pk) {
+    getFilm(pk, cb) {
         const url = `${API_URL}/api/film/${pk}`;
-        return axios.get(url).then(response => response.data);
+        axios.get(url)
+            .then(response =>
+                cb(null, response.data)
+            )
+            .catch(error =>
+                cb(new Error(error.message))
+            );
     }
     // API Canzoni
     getCanzoni() {
