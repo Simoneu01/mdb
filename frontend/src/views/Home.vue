@@ -1,30 +1,16 @@
 <template>
-    <div class="bg-dark h-screen">
-        <div class="flex" style="height: 98vh">
-            <!--  side nav -->
-            <SideNav/>
-            <!-- main content -->
-            <div class="w-full h-full relative overflow-y-scroll">
-                <!-- navbar -->
-                <NavBar/>
-                <!-- cards -->
-                <Cards :dati="recents"/>
-                <Cards :dati="recents"/>
-                <Cards :dati="recents"/>
-            </div>
-        </div>
-        <Footer/>
+    <div>
+        <Cards :dati="recents"/>
+        <Cards :dati="recents"/>
     </div>
+
 </template>
 
 <script>
-    import Footer from "../components/Footer";
-    import SideNav from "../components/SideNav";
-    import NavBar from "../components/NavBar";
     import Cards from "../components/Cards/Cards";
     export default {
         name: "Home",
-        components: {Cards, NavBar, SideNav, Footer},
+        components: {Cards},
         data(){
             return {
                 recents: [
