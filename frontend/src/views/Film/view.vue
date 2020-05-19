@@ -1,42 +1,54 @@
 <template>
-    <div class="film text-white">
-        <div class="loading" v-if="loading">Loading...</div>
-        <div v-if="error" class="error">
-            {{ error }}
-        </div>
-        <transition name="slide">
-            <!--
-              giving the post container a unique key triggers transitions
-              when the post id changes.
-            -->
-            <div v-if="film" class="content" :key="film.id">
-                <h2>{{ film.titolo }}</h2>
-                <p>{{ film.pubblicazione }}</p>
+    <!-- Two columns -->
+    <div class="flex flex-col text-white">
+        <div class="film flex mb-4">
+            <div class="w-1/6 p-10">
+                <img :src="film.src" alt="" class="flex-1 shadow mb-2">
+                <h1 class="text-xl font-semibold tracking-wide">Titolo: {{film.titolo}}</h1>
             </div>
-        </transition>
+            <div class="w-5/6 p-10">
+                <div class="text-5xl font-semibold tracking-wide">
+                    {{film.titolo}}
+                </div>
+                <div>
+                    CAST 1
+                </div>
+            </div>
+        </div>
+        <div class="text-center px-4 py-2 m-2">
+            CAST 2
+            <Cast :casts="casts"/>
+        </div>
     </div>
+
 </template>
 
 <script>
     import {APIService} from '../../APIService';
+    import Cast from "../../components/Cast";
     const apiService = new APIService();
 
     export default {
         name: "film-details",
+        components: {Cast},
         data(){
             return {
-                loading: false,
                 film: null,
-                error: null
+                casts: [
+                    {id: 1, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
+                    {id: 2, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
+                    {id: 3, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
+                    {id: 4, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
+                    {id: 5, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"}
+                ]
             }
         },
         methods:{
             getFilm(){
-                this.error = this.film = null
-                this.loading = true
+                this.film = null
                 apiService.getFilm(this.$route.params.id, (err, film) => {
                     if (err) {
-                        this.error = err.toString()
+                        console.log(err)
                     } else {
                         this.film = film
                     }
@@ -81,24 +93,5 @@
 </script>
 
 <style scoped>
-    .loading {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-    .error {
-        color: red;
-    }
-    .content {
-        transition: all .35s ease;
-        position: absolute;
-    }
-    .slide-enter {
-        opacity: 0;
-        transform: translate(30px, 0);
-    }
-    .slide-leave-active {
-        opacity: 0;
-        transform: translate(-30px, 0);
-    }
+
 </style>
