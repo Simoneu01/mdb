@@ -10,11 +10,7 @@
             <div v-for="canzone in canzoni" v-bind:key="canzone.id" class="p-2 w-48 relative">
                 <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
                     <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
-                        <font-awesome-icon @click="showModal" icon="edit"/>
-                        <Modal
-                                v-show="isModalVisible"
-                                @close="closeModal"
-                        />
+                        <font-awesome-icon icon="eye"/>
                     </div>
                 </div>
                 <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
@@ -29,26 +25,11 @@
 </template>
 
 <script>
-    import Modal from "../Modal";
     export default {
         name: "Cards",
         props: {
             canzoni: Array
-        },
-        components: {Modal},
-        data () {
-            return {
-                isModalVisible: false
-            }
-        },
-        methods: {
-            showModal() {
-                this.isModalVisible = true;
-            },
-            closeModal() {
-                this.isModalVisible = false;
-            }
-        },
+        }
     }
 </script>
 
