@@ -15,6 +15,7 @@
     "autoprefixer": "^9.7.6",
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "dayjs": "^1.8.27",
     "jshint": "^2.11.1",
     "jslint": "^0.12.1",
     "tailwindcss": "^1.4.6",

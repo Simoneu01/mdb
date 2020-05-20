@@ -20,6 +20,14 @@ export class APIService{
                 cb(new Error(error.message))
             );
     }
+
+    postFilm(data) {
+        const url = `${API_URL}/api/film/`;
+        axios.post(url, data)
+            .then(res => console.log(res))
+            .catch(err => console.log(err, err.response));
+    }
+
     // API Canzoni
     getCanzoni() {
         const url = `${API_URL}/api/canzone/`;
