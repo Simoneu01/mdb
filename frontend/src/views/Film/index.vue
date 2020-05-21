@@ -20,7 +20,16 @@
                 apiService.getFilms().then((data) => {
                     this.films = data;
                 });
+            },
+            watchFilms(){
+                setTimeout(this.getFilms, 1000)
             }
+        },
+        watch: {
+            '$route': 'getFilms',
+            films: {
+                handler: 'watchFilms'
+            },
         },
         mounted() {
             this.getFilms()

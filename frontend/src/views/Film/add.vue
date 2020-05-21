@@ -1,13 +1,13 @@
 <template>
     <div class="p-10 text-white film-add">
         <h1 class="text-4xl font-semibold tracking-wide mb-6">Aggiungi Film</h1>
-        <form class="w-full h-full max-w-2xl" method="post" @submit.prevent="postFilm">
+        <form class="w-full h-full max-w-2xl" @keydown.enter.prevent="">
             <div class="flex flex-wrap -mx-3 mb-6 ">
                 <div class="w-full px-3">
                     <label class="block uppercase tracking-wide font-bold mb-2" for="grid-titolo">
                         Titolo
                     </label>
-                    <input v-model="titolo" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-titolo" type="text" placeholder="Doe">
+                    <input v-model="titolo" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-titolo" type="text" placeholder="Fight Club">
                 </div>
             </div>
             <div class="flex flex-wrap -mx-3 mb-2">
@@ -15,7 +15,7 @@
                     <label class="block uppercase tracking-wide font-bold mb-2" for="grid-plot">
                         Trama
                     </label>
-                    <textarea v-model="plot" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-plot" type="text" placeholder="Plottt"></textarea>
+                    <textarea v-model="plot" rows="10" class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-plot" type="text" placeholder="Un uomo di trent'anni è insofferente su tutto e la notte non riesce più a dormire. In cerca di qualche luogo dove scaricare la propria ansia si mette a frequentare quei corsi dove gruppi di malati gravi si riuniscono e confessano agli altri le rispettive situazioni. Mentre si lascia andare alla commozione e al pianto di fronte a quello che vede, l'uomo fa la conoscenza prima di Marla Singer poi di Tyler Durden. Lei è una ragazza a sua volta alla deriva, incapace di scelte o decisioni; lui è un tipo deciso e vigoroso con un'idea precisa in testa. Tyler fa saltare per aria l'appartamento dell'uomo e i due vanno a vivere insieme in una casa fatiscente. Deciso a coinvolgerlo nel suo progetto, Tyler lo fa entrare in un 'Fight Club', uno stanzone sotterraneo dove ci si riunisce per picchiarsi e in questo modo sentirsi di nuovo vivi"></textarea>
                 </div>
 
                 <div class="w-full px-3 mb-6">
@@ -29,14 +29,14 @@
                             v-model="pubblicazione"
                             :input-props='{
                                 class: "w-full shadow appearance-none bg-gray-200 focus:bg-white focus:border-gray-500 border rounded py-2 px-3 text-gray-700 hover:border-blue-5",
-                                placeholder: "Release date",
+                                placeholder: "1999-10-15",
                                 readonly: true
                             }'
                     />
                 </div>
                 <div class="flex flex-wrap px-3 mb-6">
-                    <button class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Aggiungi</button>
-                    <button class="bg-tmdb_secondary hover:bg-tmdb_primary text-white font-bold py-2 px-10 rounded">Fetch from TMDb</button>
+                    <button v-on:click.prevent="postFilm" class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Aggiungi</button>
+                    <button v-on:click.prevent="fetchFilm" class="bg-tmdb_secondary hover:bg-tmdb_primary text-white font-bold py-2 px-10 rounded">Fetch from TMDb & Aggiungi</button>
                 </div>
             </div>
         </form>
@@ -47,7 +47,10 @@
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
     import {APIService} from "../../APIService";
     import * as dayjs from 'dayjs'
+    import {tmdbAPIService} from "../../tmdbAPISerice,js";
     const apiService = new APIService();
+    const tmdbService = new tmdbAPIService();
+    import swal from 'sweetalert';
 
     export default {
         name: "add-film",
@@ -55,7 +58,8 @@
             return {
                 pubblicazione: null,
                 titolo: '',
-                plot: ''
+                plot: '',
+                data: {}
             }
         },
         components: {DatePicker},
@@ -65,6 +69,43 @@
                     "titolo": this.titolo,
                     "pubblicazione": dayjs(this.pubblicazione).format('YYYY-MM-DD'),
                     "plot": this.plot
+                })
+            },
+            fetchFilm(){
+                tmdbService.searchFilm(this.titolo)
+                .then(data => {
+                    this.data = data.results[0]
+                })
+                .then(() => {
+                    apiService.postFilm({
+                        "titolo": this.titolo,
+                        "pubblicazione": this.data.release_date,
+                        "plot": this.data.overview,
+                        "tmdb_id": this.data.id,
+                        "e_src": "https://image.tmdb.org/t/p/w500/"+this.data.poster_path
+                    }).then(() => {
+                        swal({
+                            title: "Ottimo!",
+                            text: `Film ${this.titolo} aggiunto!`,
+                            icon: "success"
+                        });
+                        this.$router.push('/film')
+                    }).catch((err) => {
+                        console.log(err)
+                        swal({
+                            title: "Attenzione!",
+                            text: "Il Film è già presente!",
+                            icon: "error"
+                        });
+                    })
+                })
+                .catch((err) => {
+                    console.log(err)
+                    swal({
+                        title: "Oops!!",
+                        text: "Qualcosa è andato storto\n" + err.message,
+                        icon: "error"
+                    });
                 })
             }
         }

@@ -1,7 +1,6 @@
 <template>
     <div class="px-6 py-3">
         <!-- Titolo -->
-
         <div class="pl-2">
             <div class="flex items-center justify-between">
                 <h1 class="text-2xl font-semibold text-white tracking-wider hover:underline">Film</h1>
@@ -21,7 +20,8 @@
                         </div>
                     </div>
                     <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
-                        <img :src="film.src" alt="" class="h-auto w-full shadow mb-2">
+                        <img :src="`${film.e_src ? film.e_src : film.src}`"
+                             alt="" class="h-auto w-full shadow mb-2">
                         <h1 class="text-sm font-semibold text-white tracking-wide">{{ film.titolo }}</h1>
                         <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ film.pubblicazione }}</h1>
                     </div>

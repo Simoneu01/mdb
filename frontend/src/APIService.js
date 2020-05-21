@@ -23,7 +23,13 @@ export class APIService{
 
     postFilm(data) {
         const url = `${API_URL}/api/film/`;
-        axios.post(url, data)
+        return axios.post(url, data)
+                .then(res => res.data)
+    }
+
+    deleteFilm(pk) {
+        const url = `${API_URL}/api/film/${pk}`;
+        axios.delete(url)
             .then(res => console.log(res))
             .catch(err => console.log(err, err.response));
     }
@@ -34,9 +40,15 @@ export class APIService{
         return axios.get(url).then(response => response.data);
     }
 
-    getCanzone(pk) {
+    getCanzone(pk, cb) {
         const url = `${API_URL}/api/canzone/${pk}`;
-        return axios.get(url).then(response => response.data);
+        axios.get(url)
+            .then(response =>
+                cb(null, response.data)
+            )
+            .catch(error =>
+                cb(new Error(error.message))
+            );
     }
 
     // API Libri
@@ -45,9 +57,15 @@ export class APIService{
         return axios.get(url).then(response => response.data);
     }
 
-    getLibro(pk) {
-        const url = `${API_URL}/api/libro/${pk}`;
-        return axios.get(url).then(response => response.data);
-    }
 
+    getLibro(pk, cb) {
+        const url = `${API_URL}/api/libro/${pk}`;
+        axios.get(url)
+            .then(response =>
+                cb(null, response.data)
+            )
+            .catch(error =>
+                cb(new Error(error.message))
+            );
+    }
 }

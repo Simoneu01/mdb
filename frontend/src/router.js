@@ -39,6 +39,7 @@ export default new Router({
                     path: 'musica',
                     component: Musica
                 },
+                // Film add / view
                 {
                     path: 'film/add',
                     component: () => import('./views/Film/add')
@@ -50,6 +51,52 @@ export default new Router({
 
                         function isValid (id) {
                             return apiService.getFilm(id, (err) => {
+                                if (err) {
+                                    next({ name: 'not-found' });
+                                } else {
+                                    next();
+                                }
+                            })
+                        }
+
+                        isValid(to.params.id);
+                    }
+                },
+                // Musica add / view
+                {
+                    path: 'musica/add',
+                    component: () => import('./views/Musica/add')
+                },
+                {
+                    path: 'musica/:id',
+                    component: () => import('./views/Musica/view'),
+                    beforeEnter: (to, from, next) => {
+
+                        function isValid (id) {
+                            return apiService.getCanzone(id, (err) => {
+                                if (err) {
+                                    next({ name: 'not-found' });
+                                } else {
+                                    next();
+                                }
+                            })
+                        }
+
+                        isValid(to.params.id);
+                    }
+                },
+                // Libri add / view
+                {
+                    path: 'libri/add',
+                    component: () => import('./views/Libri/add')
+                },
+                {
+                    path: 'libri/:id',
+                    component: () => import('./views/Libri/view'),
+                    beforeEnter: (to, from, next) => {
+
+                        function isValid (id) {
+                            return apiService.getLibro(id, (err) => {
                                 if (err) {
                                     next({ name: 'not-found' });
                                 } else {
