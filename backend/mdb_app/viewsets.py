@@ -20,6 +20,8 @@ class AlbumViewSet(viewsets.ModelViewSet):
 
 
 class CanzoneViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+
     queryset = Canzone.objects.all()
     serializer_class = CanzoneSerializer
 
@@ -47,5 +49,7 @@ class ScrittoreViewSet(viewsets.ModelViewSet):
 
 
 class LibroViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny]
+
     queryset = Libro.objects.all()
     serializer_class = LibroSerializer
