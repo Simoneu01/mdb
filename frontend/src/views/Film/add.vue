@@ -47,7 +47,7 @@
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
     import {APIService} from "../../APIService";
     import * as dayjs from 'dayjs'
-    import {tmdbAPIService} from "../../tmdbAPISerice,js";
+    import {tmdbAPIService} from "../../tmdbAPIService,js";
     const apiService = new APIService();
     const tmdbService = new tmdbAPIService();
     import swal from 'sweetalert';
@@ -69,6 +69,20 @@
                     "titolo": this.titolo,
                     "pubblicazione": dayjs(this.pubblicazione).format('YYYY-MM-DD'),
                     "plot": this.plot
+                }).then(() => {
+                    swal({
+                        title: "Ottimo!",
+                        text: `Film ${this.titolo} aggiunto!`,
+                        icon: "success"
+                    });
+                    this.$router.push('/film')
+                }).catch((err) => {
+                    console.log(err)
+                    swal({
+                        title: "Attenzione!",
+                        text: "Errore! Non hai compilato tutti i campi!",
+                        icon: "error"
+                    });
                 })
             },
             fetchFilm(){

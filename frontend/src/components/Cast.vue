@@ -7,8 +7,10 @@
                         <font-awesome-icon icon="eye"/>
                     </div>
                 </div>
-                <img :src="cast.src" alt="" class="rounded-full h-auto w-full">
-                <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ cast.nome }}</h1>
+                <img :src="`https://image.tmdb.org/t/p/w500/${cast.profile_path}`" alt="" class="rounded-full h-auto w-full">
+                <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ cast.name }}</h1>
+                <h2 class="text-center text-xs text-white tracking-wide">{{ cast.character }}</h2>
+
             </div>
         </div>
 </template>

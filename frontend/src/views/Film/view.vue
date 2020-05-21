@@ -30,7 +30,8 @@
     import {APIService} from '../../APIService';
     import Cast from "../../components/Cast";
     import swal from 'sweetalert';
-
+    import {tmdbAPIService} from "../../tmdbAPIService,js";
+    const tmdbService = new tmdbAPIService();
     const apiService = new APIService();
 
     export default {
@@ -39,24 +40,30 @@
         data(){
             return {
                 film: null,
-                casts: [
-                    {id: 1, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
-                    {id: 2, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
-                    {id: 3, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
-                    {id: 4, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"},
-                    {id: 5, src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg", nome: "Simone"}
-                ]
+                casts: []
             }
         },
         methods:{
             getFilm(){
                 this.film = null
-                apiService.getFilm(this.$route.params.id, (err, film) => {
+                 apiService.getFilm(this.$route.params.id, (err, film) => {
                     if (err) {
                         console.log(err)
                     } else {
                         this.film = film
+                        this.getCastFilm()
                     }
+                })
+            },
+            getCastFilm(){
+                console.log('Richiamato')
+                this.casts = []
+                console.log(this.film.tmdb_id)
+                tmdbService.getCastFilm(this.film.tmdb_id)
+                    .then(data => {
+                        for (let i = 0; i < 8; i++) {
+                            this.casts.push(data.cast[i])
+                        }
                 })
             },
             deleteFilm(){

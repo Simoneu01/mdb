@@ -81,8 +81,10 @@ class Attore(models.Model):
     nome = models.CharField(max_length=50)
     cognome = models.CharField(max_length=50)
     dob = models.DateField()
+    tmdb_id = models.BigIntegerField(unique=True, blank=True, null=True)
+    e_src = models.URLField(blank=True, null=True)
     src = models.ImageField(upload_to='uploads/%Y/%m/film/attori/', default='uploads/default.png')
-    films = models.ManyToManyField(Film)
+    films = models.ManyToManyField(Film, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
