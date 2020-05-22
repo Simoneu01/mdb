@@ -21,9 +21,9 @@ export class APIService{
             );
     }
 
-    postFilm(data) {
+    postFilm(data, config) {
         const url = `${API_URL}/api/film/`;
-        return axios.post(url, data)
+        return axios.post(url, data, config)
                 .then(res => res.data)
     }
 

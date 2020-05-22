@@ -34,6 +34,14 @@
                             }'
                     />
                 </div>
+
+                <div class="w-full px-3 mb-6">
+                    <label class="block uppercase tracking-wide font-bold mb-2" for="grid-file">
+                        Copertina
+                    </label>
+                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+
+                </div>
                 <div class="flex flex-wrap px-3 mb-6">
                     <button v-on:click.prevent="postFilm" class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Aggiungi</button>
                     <button v-on:click.prevent="fetchFilm" class="bg-tmdb_secondary hover:bg-tmdb_primary text-white font-bold py-2 px-10 rounded">Fetch from TMDb & Aggiungi</button>
@@ -45,6 +53,7 @@
 
 <script>
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
+
     import {APIService} from "../../APIService";
     import * as dayjs from 'dayjs'
     import {tmdbAPIService} from "../../tmdbAPIService,js";
@@ -59,16 +68,35 @@
                 pubblicazione: null,
                 titolo: '',
                 plot: '',
-                data: {}
+                data: {},
+                file: ''
             }
         },
-        components: {DatePicker},
+        components: {
+            DatePicker
+        },
         methods:{
             postFilm() {
-                apiService.postFilm({
-                    "titolo": this.titolo,
-                    "pubblicazione": dayjs(this.pubblicazione).format('YYYY-MM-DD'),
-                    "plot": this.plot
+                /*
+                    Initialize the form data
+                */
+                let formData = new FormData();
+
+                /*
+                    Add the form data we need to submit
+                */
+                formData.append('titolo', this.titolo);
+                formData.append('pubblicazione', dayjs(this.pubblicazione).format('YYYY-MM-DD'));
+                formData.append('plot', this.plot);
+                formData.append('src', this.file);
+
+                /*
+                  Make the request to the POST /single-file URL
+                */
+                apiService.postFilm(formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
                 }).then(() => {
                     swal({
                         title: "Ottimo!",
@@ -84,6 +112,9 @@
                         icon: "error"
                     });
                 })
+            },
+            handleFileUpload(){
+                this.file = this.$refs.file.files[0];
             },
             fetchFilm(){
                 tmdbService.searchFilm(this.titolo)
