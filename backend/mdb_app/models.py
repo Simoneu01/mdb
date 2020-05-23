@@ -65,7 +65,7 @@ class Genere(models.Model):
 class Film(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
-    generi = models.ManyToManyField(Genere, blank=True, null=True)
+    generi = models.ManyToManyField(Genere, blank=True)
     src = models.ImageField(upload_to='uploads/%Y/%m/film/', default='uploads/default.png')
     e_src = models.URLField(blank=True, null=True)
     tmdb_id = models.BigIntegerField(unique=True, blank=True, null=True)
@@ -84,7 +84,7 @@ class Attore(models.Model):
     tmdb_id = models.BigIntegerField(unique=True, blank=True, null=True)
     e_src = models.URLField(blank=True, null=True)
     src = models.ImageField(upload_to='uploads/%Y/%m/film/attori/', default='uploads/default.png')
-    films = models.ManyToManyField(Film, null=True)
+    films = models.ManyToManyField(Film)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -111,9 +111,12 @@ class Scrittore(models.Model):
 class Libro(models.Model):
     titolo = models.CharField(max_length=50)
     pubblicazione = models.DateField()
-    generi = models.ManyToManyField(Genere)
+    generi = models.ManyToManyField(Genere, blank=True)
     src = models.ImageField(upload_to='uploads/%Y/%m/libri/', default='uploads/default.png')
-    scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE)
+    e_src = models.URLField(blank=True, null=True)
+    gbooks_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    plot = models.TextField(blank=True, null=True)
+    scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 

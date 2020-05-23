@@ -1,7 +1,7 @@
 <template>
     <!-- Two columns -->
     <div class="flex flex-col text-white">
-        <div class="film flex mb-4">
+        <div v-if="film" class="film flex mb-4">
             <div class="w-1/6 p-10">
                 <img :src="`${film.e_src ? film.e_src : film.src}`" alt="" class="flex-1 shadow mb-2">
                 <h1 class="text-xl font-semibold tracking-wide">Uscita: {{film.pubblicazione}}</h1>
@@ -15,10 +15,15 @@
                 </div>
             </div>
             <div class="w-6/6 p-10">
-                <button v-on:click.prevent="deleteFilm" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-10 rounded mr-5">Delete</button>
+                <div class="inline-flex">
+                    <router-link :to="`${film.id}/edit`">
+                        <button class="bg-green hover:bg-greenest text-white font-bold py-2 px-5 rounded mr-2">Edit</button>
+                    </router-link>
+                    <button v-on:click.prevent="deleteFilm" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-5 rounded mr-2">Delete</button>
+                </div>
             </div>
         </div>
-        <div class="p-10">
+        <div v-if="casts" class="p-10">
             <h1 class="text-4xl pl-2 font-semibold tracking-wide">CAST</h1>
             <Cast :casts="casts"/>
         </div>
@@ -39,26 +44,27 @@
         components: {Cast},
         data(){
             return {
-                film: null,
-                casts: []
+                film: {},
+                casts: null
             }
         },
         methods:{
-            getFilm(){
+            async getFilm(){
                 this.film = null
-                 apiService.getFilm(this.$route.params.id, (err, film) => {
+                await apiService.getFilm(this.$route.params.id, (err, film) => {
                     if (err) {
                         console.log(err)
                     } else {
                         this.film = film
-                        this.getCastFilm()
+                        console.log(this.film.e_src)
+                        if(this.film.e_src !== null){
+                            this.getCastFilm()
+                        }
                     }
                 })
             },
             getCastFilm(){
-                console.log('Richiamato')
                 this.casts = []
-                console.log(this.film.tmdb_id)
                 tmdbService.getCastFilm(this.film.tmdb_id)
                     .then(data => {
                         for (let i = 0; i < 8; i++) {
@@ -91,8 +97,8 @@
         watch: {
             '$route': 'getFilm'
         },
-        mounted() {
-            this.getFilm()
+        async mounted() {
+            await this.getFilm()
         },
         beforeRouteEnter : (to, from, next) => {
 

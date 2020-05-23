@@ -21,10 +21,22 @@ export class APIService{
             );
     }
 
+    getFilmnoCB(pk) {
+        const url = `${API_URL}/api/film/${pk}`;
+        return axios.get(url).then(response => response.data)
+    }
+
     postFilm(data, config) {
         const url = `${API_URL}/api/film/`;
         return axios.post(url, data, config)
-                .then(res => res.data)
+            .then(res => res.data)
+    }
+
+    patchFilm(pk, data, config) {
+        const url = `${API_URL}/api/film/${pk}/`;
+
+        return axios.patch(url, data, config)
+            .then(res => res.data)
     }
 
     deleteFilm(pk) {
@@ -67,5 +79,12 @@ export class APIService{
             .catch(error =>
                 cb(new Error(error.message))
             );
+    }
+
+    postLibro(data, config) {
+        const url = `${API_URL}/api/libro/`;
+        console.log(data)
+        return axios.post(url, data, config)
+            .then(res => res.data)
     }
 }

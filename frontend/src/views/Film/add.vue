@@ -34,13 +34,11 @@
                             }'
                     />
                 </div>
-
                 <div class="w-full px-3 mb-6">
                     <label class="block uppercase tracking-wide font-bold mb-2" for="grid-file">
                         Copertina
                     </label>
-                    <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-
+                    <input id="grid-file" type="file" ref="file" v-on:change="handleFileUpload()"/>
                 </div>
                 <div class="flex flex-wrap px-3 mb-6">
                     <button v-on:click.prevent="postFilm" class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Aggiungi</button>
@@ -53,13 +51,12 @@
 
 <script>
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
-
     import {APIService} from "../../APIService";
     import * as dayjs from 'dayjs'
     import {tmdbAPIService} from "../../tmdbAPIService,js";
+    import swal from 'sweetalert';
     const apiService = new APIService();
     const tmdbService = new tmdbAPIService();
-    import swal from 'sweetalert';
 
     export default {
         name: "add-film",
@@ -90,6 +87,10 @@
                 formData.append('plot', this.plot);
                 formData.append('src', this.file);
 
+                // Display the key/value pairs
+                for (let pair of formData.entries()) {
+                    console.log(pair[0]+ ', ' + pair[1]);
+                }
                 /*
                   Make the request to the POST /single-file URL
                 */

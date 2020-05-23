@@ -50,6 +50,26 @@ export default new Router({
                     beforeEnter: (to, from, next) => {
 
                         function isValid (id) {
+                            console.log("QUI")
+                            return apiService.getFilm(id, (err) => {
+                                if (err) {
+                                    next({ name: 'not-found' });
+                                } else {
+                                    next();
+                                }
+                            })
+                        }
+
+                        isValid(to.params.id);
+                    }
+                },
+                {
+                    path: 'film/:id/edit',
+                    component: () => import('./views/Film/edit'),
+                    beforeEnter: (to, from, next) => {
+
+                        function isValid (id) {
+                            console.log("QUI")
                             return apiService.getFilm(id, (err) => {
                                 if (err) {
                                     next({ name: 'not-found' });
