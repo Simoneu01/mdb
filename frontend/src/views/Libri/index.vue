@@ -9,7 +9,9 @@
 
     export default {
         name: "Libri",
-        components: {CardsLibri},
+        components: {
+            CardsLibri
+        },
         data(){
             return {
                 libri: []
@@ -20,7 +22,16 @@
                 apiService.getLibri().then((data) => {
                     this.libri = data;
                 });
+            },
+            watchLibri(){
+                setTimeout(this.getLibri, 1000)
             }
+        },
+        watch: {
+            '$route': 'getLibri',
+            libri: {
+                handler: 'watchLibri'
+            },
         },
         mounted() {
             this.getLibri()

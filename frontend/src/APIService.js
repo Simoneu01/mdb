@@ -87,4 +87,11 @@ export class APIService{
         return axios.post(url, data, config)
             .then(res => res.data)
     }
+
+    deleteLibro(pk) {
+        const url = `${API_URL}/api/libro/${pk}`;
+        axios.delete(url)
+            .then(res => console.log(res))
+            .catch(err => console.log(err, err.response));
+    }
 }

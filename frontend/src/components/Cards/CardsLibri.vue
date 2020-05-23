@@ -20,7 +20,8 @@
                         </div>
                     </div>
                     <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
-                        <img :src="libro.src" alt="" class="h-auto w-full shadow mb-2">
+                        <img :src="`${libro.e_src ? libro.e_src : libro.src}`"
+                        alt="" class="h-auto w-full shadow mb-2">
                         <h1 class="text-sm font-semibold text-white tracking-wide">{{ libro.titolo }}</h1>
                         <h1 class="text-xs font-semibold text-lightest tracking-wide">{{ libro.pubblicazione }}</h1>
                         <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ libro.scrittore }}</h1>

@@ -92,7 +92,7 @@
                         }
                     });
 
-            },
+            }
         },
         watch: {
             '$route': 'getFilm'

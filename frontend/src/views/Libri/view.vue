@@ -3,19 +3,27 @@
     <div class="flex flex-col text-white">
         <div class="libro flex mb-4">
             <div class="w-1/6 p-10">
-                <img :src="film.src" alt="" class="flex-1 shadow mb-2">
-                <h1 class="text-xl font-semibold tracking-wide">Titolo: {{film.titolo}}</h1>
+                <img :src="`${libro.e_src ? libro.e_src : libro.src}`" alt="" class="flex-1 shadow mb-2">
+                <h1 class="text-xl font-semibold tracking-wide">Pubblicazione: {{libro.pubblicazione}}</h1>
             </div>
             <div class="w-5/6 p-10">
                 <div class="text-5xl font-semibold tracking-wide">
-                    {{film.titolo}}
+                    {{libro.titolo}}
                 </div>
-                <div>
-                    CAST 1
+                <div v-html="libro.plot">
+
+                </div>
+            </div>
+            <div class="w-6/6 p-10">
+                <div class="inline-flex">
+                    <router-link :to="`${libro.id}/edit`">
+                        <button class="bg-green hover:bg-greenest text-white font-bold py-2 px-5 rounded mr-2">Edit</button>
+                    </router-link>
+                    <button v-on:click.prevent="deleteLibro" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-5 rounded mr-2">Delete</button>
                 </div>
             </div>
         </div>
-        <div class="p-10">
+        <div v-if="autore" class="p-10">
             <h1 class="text-4xl pl-2 font-semibold tracking-wide">Autore</h1>
             <!-- Autore -->
             <div class="w-full flex flex-wrap">
@@ -36,13 +44,14 @@
 
 <script>
     import {APIService} from '../../APIService';
+    import swal from 'sweetalert';
     const apiService = new APIService();
 
     export default {
         name: "libri-details",
         data(){
             return {
-                film: null,
+                libro: null,
                 autore: {
                     id: 1,
                     src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
@@ -52,14 +61,35 @@
         },
         methods:{
             getLibro(){
-                this.film = null
-                apiService.getLibro(this.$route.params.id, (err, film) => {
+                this.libro = null
+                apiService.getLibro(this.$route.params.id, (err, libro) => {
                     if (err) {
                         console.log(err)
                     } else {
-                        this.film = film
+                        this.libro = libro
                     }
                 })
+            },
+            deleteLibro(){
+                swal({
+                    title: "Sei sicuro?",
+                    text: "Una volta eliminato, non sarai in grado di ripristinare il libro ma dovrai riaggiungerlo!!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Poof! Il Libro è stato eliminato!!", {
+                                icon: "success",
+                            });
+                            apiService.deleteLibro(this.$route.params.id)
+                            this.$router.push('/libri')
+                        } else {
+                            swal("Il tuo libro è salvo!!");
+                        }
+                    });
+
             }
         },
         watch: {
