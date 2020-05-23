@@ -1,13 +1,19 @@
 import axios from 'axios';
-const API_URL = 'http://ws.audioscrobbler.com/2.0/';
-const lastFM_APIKEY = process.env.lastFM_APIKEY;
+import config from "./config";
+const API_URL = 'http://ws.audioscrobbler.com/';
 
 export class lastfmAPIService{
     constructor(){
     }
-    // API Film
-    searchFilm(name) {
-        const url = `${API_URL}/2.0/?method=track.search&track=${name}&api_key=${lastFM_APIKEY}&format=json`;
+    // API Search Track
+    searchTrack(name) {
+        const url = `${API_URL}2.0/?method=track.search&track=${name}&api_key=${config.lastFM_APIKEY}&format=json`;
+        return axios.get(url).then(response => response.data);
+    }
+
+    // API GET Track
+    getTrack(id) {
+        const url = `${API_URL}2.0/?method=track.getInfo&api_key=${config.lastFM_APIKEY}&mbid=${id}&format=json`;
         return axios.get(url).then(response => response.data);
     }
 

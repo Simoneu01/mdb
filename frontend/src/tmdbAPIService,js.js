@@ -5,13 +5,13 @@ import config from "./config"
 export class tmdbAPIService{
     constructor(){
     }
-    // API Film
+    // API Search Film
     searchFilm(name) {
         const url = `${API_URL}/3/search/movie?api_key=${config.TMDb_API_KEY}&language=it-IT&query=${name}&page=1&include_adult=false`;
         return axios.get(url).then(response => response.data);
     }
 
-    // API Film
+    // API Get Film
     getFilm(id) {
         const url = `${API_URL}/3/movie/${id}?api_key=${config.TMDb_API_KEY}&language=it-IT`;
         return axios.get(url).then(response => response.data);
