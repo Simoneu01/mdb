@@ -9,7 +9,9 @@
 
     export default {
         name: "Musica",
-        components: {CardsCanzoni},
+        components: {
+            CardsCanzoni
+        },
         data(){
             return {
                 canzoni: []
@@ -20,7 +22,16 @@
                 apiService.getCanzoni().then((data) => {
                     this.canzoni = data;
                 });
+            },
+            watchCanzoni(){
+                setTimeout(this.getCanzoni, 1000)
             }
+        },
+        watch: {
+            '$route': 'getCanzoni',
+            libri: {
+                handler: 'watchCanzoni'
+            },
         },
         mounted() {
             this.getCanzoni()

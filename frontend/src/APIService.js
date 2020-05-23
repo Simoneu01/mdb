@@ -63,6 +63,21 @@ export class APIService{
             );
     }
 
+    postCanzone(data, config) {
+        const url = `${API_URL}/api/canzone/`;
+        console.log(data)
+        return axios.post(url, data, config)
+            .then(res => res.data)
+    }
+
+    deleteCanzone(pk) {
+        const url = `${API_URL}/api/canzone/${pk}`;
+        axios.delete(url)
+            .then(res => console.log(res))
+            .catch(err => console.log(err, err.response));
+    }
+
+
     // API Libri
     getLibri() {
         const url = `${API_URL}/api/libro/`;

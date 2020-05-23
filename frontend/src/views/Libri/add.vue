@@ -29,7 +29,7 @@
                             v-model="pubblicazione"
                             :input-props='{
                                 class: "w-full shadow appearance-none bg-gray-200 focus:bg-white focus:border-gray-500 border rounded py-2 px-3 text-gray-700 hover:border-blue-5",
-                                placeholder: "1999-10-15",
+                                placeholder: "15/10/1999",
                                 readonly: true
                             }'
                     />

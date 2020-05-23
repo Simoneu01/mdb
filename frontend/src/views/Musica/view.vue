@@ -3,15 +3,23 @@
     <div class="flex flex-col text-white">
         <div class="musica flex mb-4">
             <div class="w-1/6 p-10">
-                <img :src="film.src" alt="" class="flex-1 shadow mb-2">
-                <h1 class="text-xl font-semibold tracking-wide">Titolo: {{film.titolo}}</h1>
+                <img :src="`${canzone.e_src ? canzone.e_src : canzone.src}`" alt="" class="flex-1 shadow mb-2">
+                <h1 class="text-xl font-semibold tracking-wide">Titolo: {{canzone.titolo}}</h1>
             </div>
             <div class="w-5/6 p-10">
                 <div class="text-5xl font-semibold tracking-wide">
-                    {{film.titolo}}
+                    {{canzone.titolo}}
                 </div>
-                <div>
+                <div v-html="canzone.plot">
 
+                </div>
+            </div>
+            <div class="w-6/6 p-10">
+                <div class="inline-flex">
+                    <router-link :to="`${canzone.id}/edit`">
+                        <button class="bg-green hover:bg-greenest text-white font-bold py-2 px-5 rounded mr-2">Edit</button>
+                    </router-link>
+                    <button v-on:click.prevent="deleteCanzone" class="bg-red-600 hover:bg-red-800 text-white font-bold py-2 px-5 rounded mr-2">Delete</button>
                 </div>
             </div>
         </div>
@@ -36,13 +44,14 @@
 
 <script>
     import {APIService} from '../../APIService';
+    import swal from "sweetalert";
     const apiService = new APIService();
 
     export default {
         name: "song-details",
         data(){
             return {
-                film: null,
+                canzone: null,
                 cantante: {
                     id: 1,
                     src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
@@ -53,13 +62,34 @@
         methods:{
             getCanzone(){
                 this.film = null
-                apiService.getCanzone(this.$route.params.id, (err, film) => {
+                apiService.getCanzone(this.$route.params.id, (err, canzone) => {
                     if (err) {
                         console.log(err)
                     } else {
-                        this.film = film
+                        this.canzone = canzone
                     }
                 })
+            },
+            deleteCanzone(){
+                swal({
+                    title: "Sei sicuro?",
+                    text: "Una volta eliminato, non sarai in grado di ripristinare la canzone ma dovrai riaggiungerla!!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            swal("Poof! La canzone è stata eliminata!!", {
+                                icon: "success",
+                            });
+                            apiService.deleteLibro(this.$route.params.id)
+                            this.$router.push('/musica')
+                        } else {
+                            swal("La tua canzone è salvo!!");
+                        }
+                    });
+
             }
         },
         watch: {

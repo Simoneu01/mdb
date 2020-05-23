@@ -6,8 +6,8 @@ export class lastfmAPIService{
     constructor(){
     }
     // API Search Track
-    searchTrack(name) {
-        const url = `${API_URL}2.0/?method=track.search&track=${name}&api_key=${config.lastFM_APIKEY}&format=json`;
+    searchTrack(track,artist) {
+        const url = `${API_URL}2.0/?method=track.search&track=${track}&artist=${artist}&api_key=${config.lastFM_APIKEY}&format=json`;
         return axios.get(url).then(response => response.data);
     }
 

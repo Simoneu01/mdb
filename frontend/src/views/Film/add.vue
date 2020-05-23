@@ -85,7 +85,9 @@
                 formData.append('titolo', this.titolo);
                 formData.append('pubblicazione', dayjs(this.pubblicazione).format('YYYY-MM-DD'));
                 formData.append('plot', this.plot);
-                formData.append('src', this.file);
+                if(this.nuovo.file){
+                    formData.append('src', this.nuovo.file)
+                }
 
                 // Display the key/value pairs
                 for (let pair of formData.entries()) {
