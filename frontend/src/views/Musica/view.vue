@@ -83,7 +83,7 @@
                             swal("Poof! La canzone è stata eliminata!!", {
                                 icon: "success",
                             });
-                            apiService.deleteLibro(this.$route.params.id)
+                            apiService.deleteCanzone(this.$route.params.id)
                             this.$router.push('/musica')
                         } else {
                             swal("La tua canzone è salvo!!");

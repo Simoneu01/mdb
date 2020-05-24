@@ -129,7 +129,7 @@
                                 this.libro = libro.volumeInfo
                                 apiService.postLibro({
                                     "titolo": this.libro.title,
-                                    "pubblicazione": this.libro.publishedDate,
+                                    "pubblicazione": dayjs(this.libro.publishedDate).format('YYYY-MM-DD'),
                                     "plot": this.libro.description,
                                     "gbooks_id": this.data.id,
                                     // https://books.google.com/books/content/images/frontcover/lnGEEb7IqdsC?fife=w500-h700

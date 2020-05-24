@@ -66,7 +66,7 @@
                 titolo: '',
                 plot: '',
                 data: {},
-                file: ''
+                file: null
             }
         },
         components: {
@@ -85,8 +85,8 @@
                 formData.append('titolo', this.titolo);
                 formData.append('pubblicazione', dayjs(this.pubblicazione).format('YYYY-MM-DD'));
                 formData.append('plot', this.plot);
-                if(this.nuovo.file){
-                    formData.append('src', this.nuovo.file)
+                if(this.file){
+                    formData.append('src', this.file)
                 }
 
                 // Display the key/value pairs

@@ -128,32 +128,61 @@
                     })
                     .then(()=>{
                         console.log(this.data)
-                        lastfmService.getTrack(this.data.mbid)
-                            .then((canzone)=>{
-                                this.canzone = canzone.track
-                                console.log(this.canzone)
-                                apiService.postCanzone({
-                                    "titolo": this.canzone.name,
-                                    "pubblicazione": dayjs(this.canzone.wiki.published).format('YYYY-MM-DD'),
-                                    "plot": this.canzone.wiki.content,
-                                    "lastfm_id": this.canzone.mbid,
-                                    "e_src": this.canzone.album.image[3]['#text']
-                                }).then(() => {
-                                    swal({
-                                        title: "Ottimo!",
-                                        text: `Libro ${this.canzone.name} aggiunto!`,
-                                        icon: "success"
-                                    });
-                                    this.$router.push('/musica')
-                                }).catch((err) => {
-                                    console.log(err)
-                                    swal({
-                                        title: "Attenzione!",
-                                        text: "La canzone è già presente!",
-                                        icon: "error"
-                                    });
+                        if(this.data.mbid !== ''){
+                            lastfmService.getTrack(this.data.mbid)
+                                .then((canzone)=>{
+                                    this.canzone = canzone.track
+                                    console.log(this.canzone)
+                                    apiService.postCanzone({
+                                        "titolo": this.canzone.name,
+                                        "pubblicazione": dayjs(this.canzone.wiki.published).format('YYYY-MM-DD'),
+                                        "plot": this.canzone.wiki.content,
+                                        "lastfm_id": this.canzone.mbid,
+                                        "e_src": this.canzone.album.image[3]['#text']
+                                    }).then(() => {
+                                        swal({
+                                            title: "Ottimo!",
+                                            text: `Libro ${this.canzone.name} aggiunto!`,
+                                            icon: "success"
+                                        });
+                                        this.$router.push('/musica')
+                                    }).catch((err) => {
+                                        console.log(err)
+                                        swal({
+                                            title: "Attenzione!",
+                                            text: "La canzone è già presente!",
+                                            icon: "error"
+                                        });
+                                    })
                                 })
-                            })
+                        } else {
+                            lastfmService.getTrackbyName(this.data.name, this.data.artist)
+                                .then((canzone)=>{
+                                    this.canzone = canzone.track
+                                    console.log(this.canzone)
+                                    apiService.postCanzone({
+                                        "titolo": this.canzone.name,
+                                        "pubblicazione": dayjs(this.canzone.wiki.published).format('YYYY-MM-DD'),
+                                        "plot": this.canzone.wiki.content,
+                                        "lastfm_id": this.canzone.name + this.canzone.duration,
+                                        "e_src": this.canzone.album.image[3]['#text']
+                                    }).then(() => {
+                                        swal({
+                                            title: "Ottimo!",
+                                            text: `Libro ${this.canzone.name} aggiunto!`,
+                                            icon: "success"
+                                        });
+                                        this.$router.push('/musica')
+                                    }).catch((err) => {
+                                        console.log(err)
+                                        swal({
+                                            title: "Attenzione!",
+                                            text: "La canzone è già presente!",
+                                            icon: "error"
+                                        });
+                                    })
+                                })
+                        }
                     })
                     .catch((err) => {
                         console.log(err)
