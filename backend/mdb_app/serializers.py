@@ -44,9 +44,9 @@ class AttoreSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ScrittoreSerializer(serializers.ModelSerializer):
+class AutoreSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Scrittore
+        model = Autore
         fields = '__all__'
 
 

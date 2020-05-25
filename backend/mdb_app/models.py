@@ -98,11 +98,11 @@ class Attore(models.Model):
     class Meta:
             verbose_name_plural = "Attori"
 
-class Scrittore(models.Model):
+class Autore(models.Model):
     nome = models.CharField(max_length=50)
     cognome = models.CharField(max_length=50)
     dob = models.DateField()
-    src = models.ImageField(upload_to='uploads/%Y/%m/libri/scrittori/', default='uploads/default.png')
+    src = models.ImageField(upload_to='uploads/%Y/%m/libri/autori/', default='uploads/default.png')
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -110,7 +110,7 @@ class Scrittore(models.Model):
         return '%s %s' % (self.nome, self.cognome)
 
     class Meta:
-            verbose_name_plural = "Scrittori"
+            verbose_name_plural = "Autori"
 
 class Libro(models.Model):
     titolo = models.CharField(max_length=50)
@@ -120,12 +120,12 @@ class Libro(models.Model):
     e_src = models.URLField(blank=True, null=True)
     gbooks_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
     plot = models.TextField(blank=True, null=True)
-    scrittore = models.ForeignKey(Scrittore, on_delete=models.CASCADE, blank=True, null=True)
+    autore = models.ForeignKey(Autore, on_delete=models.CASCADE, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return 'Titolo: %s - Scrittore: %s' % (self.titolo, self.scrittore)
+        return 'Titolo: %s - Autore: %s' % (self.titolo, self.autore)
 
     class Meta:
         verbose_name_plural = "Libri"

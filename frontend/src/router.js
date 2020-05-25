@@ -39,6 +39,12 @@ export default new Router({
                     path: 'musica',
                     component: Musica
                 },
+                // Libri will be rendered inside Container's <router-view>
+                // when /film is matched
+                {
+                    path: 'autore',
+                    component: () => import('./views/Autori/index')
+                },
                 // Film add / view
                 {
                     path: 'film/add',

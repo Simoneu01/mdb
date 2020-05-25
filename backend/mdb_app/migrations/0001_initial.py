@@ -71,7 +71,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name_plural': 'Scrittori',
+                'verbose_name_plural': 'Autori',
             },
         ),
         migrations.CreateModel(

@@ -23,7 +23,7 @@ class AttoreAdmin(admin.ModelAdmin):
 
 
 class LibroAdmin(admin.ModelAdmin):
-    list_display = ('titolo', 'pubblicazione', 'scrittore', 'created_at', 'updated_at')
+    list_display = ('titolo', 'pubblicazione', 'autore', 'created_at', 'updated_at')
 
 
 # Register your models here.
@@ -34,5 +34,5 @@ admin.site.register(Canzone, CanzoneAdmin)
 admin.site.register(Genere, BasicAdmin)
 admin.site.register(Film, FilmAdmin)
 admin.site.register(Attore, BasicAdmin)
-admin.site.register(Scrittore, BasicAdmin)
+admin.site.register(Autore, BasicAdmin)
 admin.site.register(Libro, LibroAdmin)
