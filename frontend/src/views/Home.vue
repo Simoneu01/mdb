@@ -104,17 +104,17 @@
         methods: {
             getCanzoni(){
                 apiService.getCanzoni().then((data) => {
-                    this.canzoni = data.slice(-8);
+                    this.canzoni = data.slice(-9).reverse();
                 });
             },
             getFilms(){
                 apiService.getFilms().then((data) => {
-                    this.films = data.slice(-8);
+                    this.films = data.slice(-9).reverse();
                 });
             },
             getLibri(){
                 apiService.getLibri().then((data) => {
-                    this.libri = data.slice(-8);
+                    this.libri = data.slice(-9).reverse();
                 });
             },
         },
