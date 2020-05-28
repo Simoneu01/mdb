@@ -1,40 +1,127 @@
 <template>
     <div>
-        <Cards :dati="recents"/>
-        <Cards :dati="recents"/>
+        <!-- FILMS -->
+        <div class="px-6 py-3">
+            <!-- Titolo -->
+            <router-link to="/film">
+                <div class="flex items-center justify-between">
+                    <h1 class="pl-2 text-2xl font-semibold text-white tracking-wider hover:underline">Ultimi Films Aggiunti</h1>
+                    <h2 class="pr-8 pt-4 text-lightest uppercase tracking-wider hover:underline mb-3">Vedi Tutti</h2>
+                </div>
+            </router-link>
+            <!-- Cards -->
+            <div class="w-full flex flex-wrap">
+                <router-link v-for="film in films" v-bind:key="film.id" :to="`film/${film.id}`">
+                    <div class="p-2 w-48 relative">
+                        <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
+                            <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
+                                <font-awesome-icon icon="eye"/>
+                            </div>
+                        </div>
+                        <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
+                            <img :src="`${film.e_src ? film.e_src : film.src}`"
+                                 alt="" class="h-auto w-full shadow mb-2">
+                            <h1 class="text-sm font-semibold text-white tracking-wide">{{ film.titolo }}</h1>
+                            <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ film.pubblicazione }}</h1>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+        </div>
+        <!-- LIBRI -->
+        <div class="px-6 py-3">
+            <!-- Titolo -->
+            <router-link to="/libri">
+                <div class="flex items-center justify-between">
+                    <h1 class="pl-2 text-2xl font-semibold text-white tracking-wider hover:underline">Ultimi Libri Aggiunti</h1>
+                    <h2 class="pr-8 pt-4 text-lightest uppercase tracking-wider hover:underline mb-3">Vedi Tutti</h2>
+                </div>
+            </router-link>
+            <!-- Cards -->
+            <div class="w-full flex flex-wrap">
+                <router-link v-for="libro in libri" v-bind:key="libro.id" :to="`libri/${libro.id}`">
+                    <div class="p-2 w-48 relative">
+                        <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
+                            <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
+                                <font-awesome-icon icon="eye"/>
+                            </div>
+                        </div>
+                        <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
+                            <img :src="`${libro.e_src ? libro.e_src : libro.src}`"
+                                 alt="" class="h-auto w-full shadow mb-2">
+                            <h1 class="text-sm font-semibold text-white tracking-wide">{{ libro.titolo }}</h1>
+                            <h1 class="text-xs font-semibold text-lightest tracking-wide">{{ libro.pubblicazione }}</h1>
+                            <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ libro.scrittore }}</h1>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+        </div>
+        <!-- MUSICA -->
+        <div class="px-6 py-3">
+            <!-- Titolo -->
+            <router-link to="/musica">
+                <div class="flex items-center justify-between">
+                    <h1 class="pl-2 text-2xl font-semibold text-white tracking-wider hover:underline">Ultime Canzoni Aggiunte</h1>
+                    <h2 class="pr-8 pt-4 text-lightest uppercase tracking-wider hover:underline mb-3">Vedi Tutti</h2>
+                </div>
+            </router-link>
+            <!-- Cards -->
+            <div class="w-full flex flex-wrap">
+                <router-link v-for="canzone in canzoni" v-bind:key="canzone.id" :to="`musica/${canzone.id}`">
+                    <div class="p-2 w-48 relative">
+                        <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
+                            <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
+                                <font-awesome-icon icon="eye"/>
+                            </div>
+                        </div>
+                        <div class="bg-light w-full h-auto p-5 rounded-lg shadow-md">
+                            <img :src="`${canzone.e_src ? canzone.e_src : canzone.src}`"
+                                 alt="" class="h-auto w-full shadow mb-2">
+                            <h1 class="text-sm font-semibold text-white tracking-wide">{{ canzone.titolo }}</h1>
+                            <h1 class="text-xs font-semibold text-lightest tracking-wide pb-5">{{ canzone.artista }}</h1>
+                        </div>
+                    </div>
+                </router-link>
+            </div>
+        </div>
     </div>
-
 </template>
 
 <script>
-    import Cards from "../components/Cards/Cards";
+    import {APIService} from '../APIService';
+    const apiService = new APIService();
+
     export default {
         name: "Home",
-        components: {Cards},
         data(){
             return {
-                recents: [
-                    {id: 1,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 2,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 3,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 4,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 5,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 6,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 7,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 8,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 9,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 10,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 11,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 12,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 13,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 14,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 15,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 16,src: "https://i.pinimg.com/236x/5a/ae/fc/5aaefce2692fc8f97a28f28395c51f26--rock-album-covers-bon-scott.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 17,src: "https://i.pinimg.com/236x/25/96/81/2596815592f58d1926132951747c228b--rolling-stones-album-covers-the-rolling-stones.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"},
-                    {id: 18,src: "https://i.pinimg.com/236x/65/82/ad/6582ad1cf458b71f32a25a933717157f--neil-young-gold-rush.jpg", title: "AC/DC Let There Be Rock", artist: "Simone Ungaro"}
-
-                ]
+                canzoni: null,
+                films: null,
+                libri: null
             }
+        },
+        methods: {
+            getCanzoni(){
+                apiService.getCanzoni().then((data) => {
+                    this.canzoni = data.slice(-8);
+                });
+            },
+            getFilms(){
+                apiService.getFilms().then((data) => {
+                    this.films = data.slice(-8);
+                });
+            },
+            getLibri(){
+                apiService.getLibri().then((data) => {
+                    this.libri = data.slice(-8);
+                });
+            },
+        },
+        mounted() {
+            this.getLibri()
+            this.getCanzoni()
+            this.getFilms()
         }
     }
 </script>
