@@ -49,7 +49,7 @@
                 });
             },
             watchCanzoni(){
-                setTimeout(this.getCanzoni, 1000)
+                setTimeout(this.getCanzoni, 500)
             }
         },
         watch: {

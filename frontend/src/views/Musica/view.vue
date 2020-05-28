@@ -1,6 +1,6 @@
 <template>
     <!-- Two columns -->
-    <div class="flex flex-col text-white">
+    <div v-if="canzone" class="flex flex-col text-white">
         <div class="musica flex mb-4">
             <div class="w-1/6 p-10">
                 <img :src="`${canzone.e_src ? canzone.e_src : canzone.src}`" alt="" class="flex-1 shadow mb-2">
@@ -23,21 +23,25 @@
                 </div>
             </div>
         </div>
-        <div class="p-10">
-            <h1 class="text-4xl pl-2 font-semibold tracking-wide">Cantante</h1>
-            <!-- Autore -->
+        <div v-if="albums" class="p-10">
+            <h1 class="text-4xl pl-2 font-semibold tracking-wide">Top Albums</h1>
+            <!-- Cast -->
             <div class="w-full flex flex-wrap">
-                <div v-bind:key="cantante.id" class="rounded-lg p-2 w-48 relative">
-                    <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
-                        <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
-                            <font-awesome-icon icon="eye"/>
+                <a v-for="album in albums" v-bind:key="album.mbid" :href="album.url">
+                    <div class="rounded-lg p-2 w-48 relative">
+                        <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
+                            <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
+                                <font-awesome-icon icon="eye"/>
+                            </div>
                         </div>
+                        <img :src="album.image[3]['#text']" alt="" class="rounded-full h-auto w-full">
+                        <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ album.name }}</h1>
                     </div>
-                    <img :src="cantante.src" alt="" class="rounded-full h-auto w-full">
-                    <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ cantante.nome }}</h1>
-                </div>
+                </a>
             </div>
         </div>
+
+
     </div>
 
 </template>
@@ -45,18 +49,16 @@
 <script>
     import {APIService} from '../../APIService';
     import swal from "sweetalert";
+    import {lastfmAPIService} from "../../lastfmAPIService";
     const apiService = new APIService();
+    const lastfmService = new lastfmAPIService();
 
     export default {
         name: "song-details",
         data(){
             return {
                 canzone: null,
-                cantante: {
-                    id: 1,
-                    src: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
-                    nome: "Simone"
-                }
+                albums: null
             }
         },
         methods:{
@@ -67,8 +69,23 @@
                         console.log(err)
                     } else {
                         this.canzone = canzone
+                        this.getArtista()
                     }
                 })
+            },
+            getArtista(){
+                try {
+                    lastfmService.getArtist(this.canzone.e_artista_id)
+                        .then(albums => {
+                            this.albums = albums.topalbums.album
+                        })
+                } catch {
+                    lastfmService.getArtistbyName(this.canzone.e_artista_id)
+                        .then(albums => {
+                            this.albums = albums.topalbums.album
+                        })
+                }
+
             },
             deleteCanzone(){
                 swal({

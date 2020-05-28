@@ -22,4 +22,16 @@ export class lastfmAPIService{
         return axios.get(url).then(response => response.data);
     }
 
+    getArtistbyName(artist){
+        // /2.0/?method=artist.getinfo&artist=Cher&api_key=YOUR_API_KEY&format=json
+        const url = `${API_URL}2.0/?method=artist.getTopAlbums&api_key=${config.lastFM_APIKEY}&artist=${artist}&format=json`;
+        return axios.get(url).then(response => response.data);
+    }
+
+    getArtist(id){
+        // /2.0/?method=artist.getinfo&artist=Cher&api_key=YOUR_API_KEY&format=json
+        const url = `${API_URL}2.0/?method=artist.getTopAlbums&api_key=${config.lastFM_APIKEY}&mbid=${id}&format=json`;
+        return axios.get(url).then(response => response.data);
+    }
+
 }

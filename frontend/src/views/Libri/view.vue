@@ -23,21 +23,6 @@
                 </div>
             </div>
         </div>
-        <div v-if="autore" class="p-10">
-            <h1 class="text-4xl pl-2 font-semibold tracking-wide">Autore</h1>
-            <!-- Autore -->
-            <div class="w-full flex flex-wrap">
-                <div v-bind:key="autore.id" class="rounded-lg p-2 w-48 relative">
-                    <div class="absolute w-full h-full flex items-end justify-end p-8 opacity-0 hover:opacity-100">
-                        <div class="bg-green rounded-full h-10 w-10 flex items-center justify-center">
-                            <font-awesome-icon icon="eye"/>
-                        </div>
-                    </div>
-                    <img :src="autore.src" alt="" class="rounded-full h-auto w-full">
-                    <h1 class="text-center text-sm font-semibold text-white tracking-wide">{{ autore.nome }}</h1>
-                </div>
-            </div>
-        </div>
     </div>
 
 </template>
@@ -46,6 +31,8 @@
     import {APIService} from '../../APIService';
     import swal from 'sweetalert';
     const apiService = new APIService();
+    import {gbookAPIService} from "../../gbookAPIService";
+    const gbooksService = new gbookAPIService();
 
     export default {
         name: "libri-details",
@@ -69,6 +56,15 @@
                         this.libro = libro
                     }
                 })
+            },
+            getAutore(){
+                this.casts = []
+                gbooksService.getAutore(this.film.tmdb_id)
+                    .then(data => {
+                        for (let i = 0; i < 8; i++) {
+                            this.casts.push(data.cast[i])
+                        }
+                    })
             },
             deleteLibro(){
                 swal({

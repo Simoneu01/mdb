@@ -4,6 +4,20 @@ export class APIService{
 
     constructor(){
     }
+
+
+    // API Global
+
+    findOrCreate(pk,endpoint,data, config) {
+        try {
+            return this.getFilmnoCB(pk)
+                .then((response) => response)
+        } catch {
+            let url = `${API_URL}/api/${endpoint}/`;
+            axios.post(url, data, config)
+                .then(res => res.data)
+        }
+    }
     // API Film
     getFilms() {
         const url = `${API_URL}/api/film/`;

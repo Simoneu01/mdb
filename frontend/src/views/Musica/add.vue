@@ -68,7 +68,8 @@
                 plot: '',
                 data: {},
                 file: '',
-                canzone: {}
+                canzone: {},
+                datiArtista : null
             }
         },
         components: {
@@ -126,6 +127,21 @@
                     .then(data => {
                         this.data = data.results.trackmatches.track[0]
                     })
+                    .then(() => {
+                        lastfmService.getArtistbyName(this.data.artist)
+                            .then(ar =>{
+                                console.log('ar')
+                                console.log(ar)
+                                let temp = ar
+                                if(this.temp.mbid !== ''){
+                                    console.log('mbid')
+                                } else {
+                                    this.datiArtista = temp.name
+                                    console.log('name')
+                                    console.log(this.datiArtista)
+                                }
+                            })
+                    })
                     .then(()=>{
                         console.log(this.data)
                         if(this.data.mbid !== ''){
@@ -138,7 +154,8 @@
                                         "pubblicazione": dayjs(this.canzone.wiki.published).format('YYYY-MM-DD'),
                                         "plot": this.canzone.wiki.content,
                                         "lastfm_id": this.canzone.mbid,
-                                        "e_src": this.canzone.album.image[3]['#text']
+                                        "e_src": this.canzone.album.image[3]['#text'],
+                                        "e_artista_id": this.canzone.artist.mbid
                                     }).then(() => {
                                         swal({
                                             title: "Ottimo!",
@@ -165,7 +182,8 @@
                                         "pubblicazione": dayjs(this.canzone.wiki.published).format('YYYY-MM-DD'),
                                         "plot": this.canzone.wiki.content,
                                         "lastfm_id": this.canzone.name + this.canzone.duration,
-                                        "e_src": this.canzone.album.image[3]['#text']
+                                        "e_src": this.canzone.album.image[3]['#text'],
+                                        "e_artista_id": this.datiArtista
                                     }).then(() => {
                                         swal({
                                             title: "Ottimo!",

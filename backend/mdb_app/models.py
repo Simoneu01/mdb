@@ -43,6 +43,7 @@ class Canzone(models.Model):
     titolo = models.CharField(max_length=50)
     src = models.ImageField(upload_to='uploads/%Y/%m/canzoni', default='uploads/default.png')
     e_src = models.URLField(blank=True, null=True)
+    e_artista_id = models.CharField(max_length=100, blank=True, null=True)
     lastfm_id = models.CharField(max_length=50, unique=True, blank=True, null=True)
     plot = models.TextField(blank=True, null=True)
     pubblicazione = models.DateField()
