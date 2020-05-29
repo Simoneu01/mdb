@@ -1,6 +1,6 @@
 <template>
     <!-- Two columns -->
-    <div class="flex flex-col text-white">
+    <div v-if="libro" class="flex flex-col text-white">
         <div class="libro flex mb-4">
             <div class="w-1/6 p-10">
                 <img :src="`${libro.e_src ? libro.e_src : libro.src}`" alt="" class="flex-1 shadow mb-2">

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-10 text-white film-add">
+    <div class="p-10 text-white libro-add">
         <h1 class="text-4xl font-semibold tracking-wide mb-6">Aggiungi Libro</h1>
         <form class="w-full h-full max-w-2xl" @keydown.enter.prevent="">
             <div class="flex flex-wrap -mx-3 mb-6 ">

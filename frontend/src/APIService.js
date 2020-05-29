@@ -77,6 +77,11 @@ export class APIService{
             );
     }
 
+    getCanzonenoCB(pk) {
+        const url = `${API_URL}/api/canzone/${pk}`;
+        return axios.get(url).then(response => response.data)
+    }
+
     postCanzone(data, config) {
         const url = `${API_URL}/api/canzone/`;
         console.log(data)
@@ -108,6 +113,18 @@ export class APIService{
             .catch(error =>
                 cb(new Error(error.message))
             );
+    }
+
+    patchLibro(pk, data, config) {
+        const url = `${API_URL}/api/libro/${pk}/`;
+
+        return axios.patch(url, data, config)
+            .then(res => res.data)
+    }
+
+    getLibronoCB(pk) {
+        const url = `${API_URL}/api/libro/${pk}`;
+        return axios.get(url).then(response => response.data)
     }
 
     postLibro(data, config) {
