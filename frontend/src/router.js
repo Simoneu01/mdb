@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import Account from './views/Account.vue'
 import Film from './views/Film/index.vue'
 import Libri from "./views/Libri/index";
 import Musica from "./views/Musica/index";
@@ -20,6 +21,12 @@ export default new Router({
                     path: '',
                     component: Home,
                     alias: 'home'
+                },
+                // Account will be rendered inside Container's <router-view>
+                // when /film is matched
+                {
+                    path: 'account',
+                    component: Account
                 },
                 // Film will be rendered inside Container's <router-view>
                 // when /film is matched
@@ -109,6 +116,24 @@ export default new Router({
                         isValid(to.params.id);
                     }
                 },
+                {
+                    path: 'musica/:id/edit',
+                    component: () => import('./views/Musica/edit'),
+                    beforeEnter: (to, from, next) => {
+
+                        function isValid (id) {
+                            return apiService.getCanzone(id, (err) => {
+                                if (err) {
+                                    next({ name: 'not-found' });
+                                } else {
+                                    next();
+                                }
+                            })
+                        }
+
+                        isValid(to.params.id);
+                    }
+                },
                 // Libri add / view
                 {
                     path: 'libri/add',
@@ -131,7 +156,25 @@ export default new Router({
 
                         isValid(to.params.id);
                     }
-                }
+                },
+                {
+                    path: 'libri/:id/edit',
+                    component: () => import('./views/Libri/edit'),
+                    beforeEnter: (to, from, next) => {
+
+                        function isValid (id) {
+                            return apiService.getLibro(id, (err) => {
+                                if (err) {
+                                    next({ name: 'not-found' });
+                                } else {
+                                    next();
+                                }
+                            })
+                        }
+
+                        isValid(to.params.id);
+                    }
+                },
             ]
         },
         {
