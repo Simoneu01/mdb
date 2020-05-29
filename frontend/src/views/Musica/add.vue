@@ -130,14 +130,11 @@
                     .then(() => {
                         lastfmService.getArtistbyName(this.data.artist)
                             .then(ar =>{
-                                console.log('ar')
-                                console.log(ar)
                                 let temp = ar
                                 if(this.temp.mbid !== ''){
                                     console.log('mbid')
                                 } else {
                                     this.datiArtista = temp.name
-                                    console.log('name')
                                     console.log(this.datiArtista)
                                 }
                             })

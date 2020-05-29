@@ -186,7 +186,6 @@
         beforeRouteEnter : (to, from, next) => {
 
             function isValid (id) {
-                console.log('QUA')
                 return apiService.getFilm(id, (err) => {
                     if (err) {
                         next('/404');

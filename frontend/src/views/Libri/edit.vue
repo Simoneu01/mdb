@@ -143,7 +143,6 @@
             fetchLibro(){
                 gbooksService.getBook(this.libro.gbooks_id)
                 .then(data => {
-                    console.log(data.volumeInfo)
                     this.data = data.volumeInfo
                 })
                 .then(() => {

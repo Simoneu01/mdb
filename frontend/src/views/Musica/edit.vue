@@ -146,9 +146,7 @@
                 if(this.canzone.mbid !== ''){
                     lastfmService.getTrack(this.canzone.lastfm_id)
                         .then((canzone)=>{
-                            console.log('SONO QUIIIII')
                             this.data = canzone.track
-                            console.log(this.data)
                             apiService.patchCanzone(this.$route.params.id, {
                                 "titolo": this.data.name,
                                 "pubblicazione": dayjs(this.data.wiki.published).format('YYYY-MM-DD'),
@@ -174,7 +172,6 @@
                     lastfmService.getTrackbyName(this.canzone.titolo, this.canzone.artista)
                         .then((canzone)=>{
                             this.data = canzone.track
-                            console.log(this.data)
                             apiService.patchCanzone(this.$route.params.id,{
                                 "titolo": this.data.name,
                                 "pubblicazione": dayjs(this.data.wiki.published).format('YYYY-MM-DD'),
@@ -205,7 +202,6 @@
         beforeRouteEnter : (to, from, next) => {
 
             function isValid (id) {
-                console.log('QUA')
                 return apiService.getCanzone(id, (err) => {
                     if (err) {
                         next('/404');
