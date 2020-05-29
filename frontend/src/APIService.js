@@ -89,6 +89,13 @@ export class APIService{
             .then(res => res.data)
     }
 
+    patchCanzone(pk, data, config) {
+        const url = `${API_URL}/api/canzone/${pk}/`;
+
+        return axios.patch(url, data, config)
+            .then(res => res.data)
+    }
+
     deleteCanzone(pk) {
         const url = `${API_URL}/api/canzone/${pk}`;
         axios.delete(url)

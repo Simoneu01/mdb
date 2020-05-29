@@ -1,6 +1,6 @@
 <template>
     <div class="p-10 text-white film-add">
-        <h1 v-if="film" class="text-4xl font-semibold tracking-wide mb-6">Modifica: {{film.titolo}}</h1>
+        <h1 v-if="canzone" class="text-4xl font-semibold tracking-wide mb-6">Modifica: {{canzone.titolo}}</h1>
         <form v-if="nuovo" class="w-full h-full max-w-2xl" @keydown.enter.prevent="">
             <div class="flex flex-wrap -mx-3 mb-6 ">
                 <div class="w-full px-3">
@@ -43,8 +43,8 @@
 
                 </div>
                 <div class="flex flex-wrap px-3 mb-6">
-                    <button v-on:click.prevent="patchFilm" class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Modifica</button>
-                    <button v-on:click.prevent="fetchFilm" class="bg-tmdb_secondary hover:bg-tmdb_primary text-white font-bold py-2 px-10 rounded">Fetch from TMDb & Aggiorna</button>
+                    <button v-on:click.prevent="patchCanzone" class="bg-green hover:bg-greenest text-white font-bold py-2 px-10 rounded mr-5">Aggiorna</button>
+                    <button v-on:click.prevent="fetchCanzone" class="bg-tmdb_secondary hover:bg-tmdb_primary text-white font-bold py-2 px-10 rounded">Fetch from Last.fm & Aggiorna</button>
                 </div>
             </div>
         </form>
@@ -53,19 +53,18 @@
 
 <script>
     import DatePicker from 'v-calendar/lib/components/date-picker.umd'
-
     import {APIService} from "../../APIService";
     import * as dayjs from 'dayjs'
-    import {tmdbAPIService} from "../../tmdbAPIService,js";
     const apiService = new APIService();
-    const tmdbService = new tmdbAPIService();
     import swal from 'sweetalert';
+    import {lastfmAPIService} from "../../lastfmAPIService";
+    const lastfmService = new lastfmAPIService();
 
     export default {
         name: "edit-film",
         data: function (){
             return {
-                film: {},
+                canzone: {},
                 nuovo: {
                     titolo: null,
                     pubblicazione: null,
@@ -79,17 +78,17 @@
             DatePicker
         },
         methods:{
-            getFilm(){
-                this.film = null
-                apiService.getFilmnoCB(this.$route.params.id)
-                    .then((film) => {
-                        this.film = film
-                        this.nuovo.titolo = film.titolo
-                        this.nuovo.pubblicazione = new Date(film.pubblicazione)
-                        this.nuovo.plot = film.plot
+            getCanzone(){
+                this.canzone = null
+                apiService.getCanzonenoCB(this.$route.params.id)
+                    .then((canzone) => {
+                        this.canzone = canzone
+                        this.nuovo.titolo = canzone.titolo
+                        this.nuovo.pubblicazione = new Date(canzone.pubblicazione)
+                        this.nuovo.plot = canzone.plot
                     })
             },
-            patchFilm() {
+            patchCanzone() {
                 /*
                     Initialize the form data
                 */
@@ -99,14 +98,14 @@
                     Add the form data we need to submit
                 */
 
-                console.log(this.film.titolo !== this.nuovo.titolo)
-                if(this.film.titolo !== this.nuovo.titolo){
+                console.log(this.canzone.titolo !== this.nuovo.titolo)
+                if(this.canzone.titolo !== this.nuovo.titolo){
                     formData.append('titolo', this.nuovo.titolo)
                 }
-                if(this.film.pubblicazione !== this.nuovo.pubblicazione){
+                if(this.canzone.pubblicazione !== this.nuovo.pubblicazione){
                     formData.append('pubblicazione', dayjs(this.nuovo.pubblicazione).format('YYYY-MM-DD'));
                 }
-                if(this.film.plot !== this.nuovo.plot){
+                if(this.canzone.plot !== this.nuovo.plot){
                     formData.append('plot', this.nuovo.plot)
                 }
                 if(this.nuovo.file){
@@ -120,17 +119,17 @@
                 for (let pair of formData.entries()) {
                     console.log(pair[0]+ ', ' + pair[1]);
                 }
-                apiService.patchFilm(this.$route.params.id, formData, {
+                apiService.patchCanzone(this.$route.params.id, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 }).then(() => {
                     swal({
                         title: "Ottimo!",
-                        text: `Film ${this.nuovo.titolo} aggiornato!`,
+                        text: `Canzone ${this.nuovo.titolo} aggiornato!`,
                         icon: "success"
                     });
-                    this.$router.push('/film')
+                    this.$router.push('/musica')
                 }).catch((err) => {
                     console.log(err)
                     swal({
@@ -143,45 +142,65 @@
             handleFileUpload(){
                 this.nuovo.file = this.$refs.file.files[0];
             },
-            fetchFilm(){
-                tmdbService.getFilm(this.film.tmdb_id)
-                .then(data => {
-                    this.data = data
-                })
-                .then(() => {
-                    apiService.patchFilm(this.$route.params.id,{
-                        "titolo": this.data.title,
-                        "pubblicazione": this.data.release_date,
-                        "plot": this.data.overview,
-                        "e_src": "https://image.tmdb.org/t/p/w500/"+this.data.poster_path
-                    }).then(() => {
-                        swal({
-                            title: "Ottimo!",
-                            text: `Film ${this.data.title} aggiornato!`,
-                            icon: "success"
-                        });
-                        this.$router.push('/film')
-                    }).catch((err) => {
-                        console.log(err)
-                        swal({
-                            title: "Attenzione!",
-                            text: "Il Film è già presente!",
-                            icon: "error"
-                        });
-                    })
-                })
-                .catch((err) => {
-                    console.log(err)
-                    swal({
-                        title: "Oops!!",
-                        text: "Qualcosa è andato storto\n" + err.message,
-                        icon: "error"
-                    });
-                })
+            fetchCanzone(){
+                if(this.canzone.mbid !== ''){
+                    lastfmService.getTrack(this.canzone.lastfm_id)
+                        .then((canzone)=>{
+                            console.log('SONO QUIIIII')
+                            this.data = canzone.track
+                            console.log(this.data)
+                            apiService.patchCanzone(this.$route.params.id, {
+                                "titolo": this.data.name,
+                                "pubblicazione": dayjs(this.data.wiki.published).format('YYYY-MM-DD'),
+                                "plot": this.data.wiki.content,
+                                "e_src": this.data.album.image[3]['#text']
+                            }).then(() => {
+                                swal({
+                                    title: "Ottimo!",
+                                    text: `Canzone ${this.data.name} aggiornata!`,
+                                    icon: "success"
+                                });
+                                this.$router.push('/musica')
+                            }).catch((err) => {
+                                console.log(err)
+                                swal({
+                                    title: "Attenzione!",
+                                    text: "La canzone è già presente!",
+                                    icon: "error"
+                                });
+                            })
+                        })
+                } else {
+                    lastfmService.getTrackbyName(this.canzone.titolo, this.canzone.artista)
+                        .then((canzone)=>{
+                            this.data = canzone.track
+                            console.log(this.data)
+                            apiService.patchCanzone(this.$route.params.id,{
+                                "titolo": this.data.name,
+                                "pubblicazione": dayjs(this.data.wiki.published).format('YYYY-MM-DD'),
+                                "plot": this.data.wiki.content,
+                                "e_src": this.data.album.image[3]['#text']
+                            }).then(() => {
+                                swal({
+                                    title: "Ottimo!",
+                                    text: `Canzone ${this.data.name} aggiornata!`,
+                                    icon: "success"
+                                });
+                                this.$router.push('/musica')
+                            }).catch((err) => {
+                                console.log(err)
+                                swal({
+                                    title: "Attenzione!",
+                                    text: "La canzone è già presente!",
+                                    icon: "error"
+                                });
+                            })
+                        })
+                }
             }
         },
         async mounted() {
-            await this.getFilm()
+            await this.getCanzone()
         },
         beforeRouteEnter : (to, from, next) => {
 
